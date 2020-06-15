@@ -1,0 +1,35 @@
+
+<script src="RGraph.common.core.js"></script>
+<script src="RGraph.pie.js"></script>
+<canvas id="cvs" width="350" height="350">
+    [No canvas support]
+</canvas>
+<script>
+    segmented = new RGraph.SegmentedMeter({
+        id: 'cvs',
+        max: 100,
+        value: 70,
+        options: {
+            //backgroundColor: 'black',
+            //value: true,
+            //valuePercentage: false,
+            //valueUnitsPre: '',
+            //valueDecimals: 1,
+            //valueBold: null,
+            //valueItalic: null,
+            //valueFont: null,
+            //colors: ['red','white']
+            variantDonutWidth: 55,
+            marginTop: 15,
+            marginBottom: 15,
+            marginLeft: 15,
+            marginRight: 15,
+            valueUnitsPost: '%',
+            valueColor: '#aaa',
+            valueSize: 60
+        }
+    }).roundRobin({frames: 60}).responsive([
+        {maxWidth: 700,css:{'float':'none'}},
+        {maxWidth: null,css:{'float':'right'}}
+    ]);
+</script>

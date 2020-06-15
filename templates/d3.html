@@ -1,0 +1,22 @@
+<div id="liquid-fill-gauge-default"></div>
+<div id="liquid-fill-gauge-customized"></div>
+<script>
+d3.json('../data/liquids-volume.json', function (data) {
+d3.liquidFillGauge(data, { id: 'liquid-fill-gauge-default' });
+});
+d3.json('../data/liquids-volume.json', function (data) {
+d3.shuffle(data);
+d3.liquidFillGauge(data, {
+id: 'liquid-fill-gauge-customized',
+sort: 'descending(value)',
+frame: {
+shape: 'rect',
+round: 0.3
+},
+wave: {
+peaks: 3,
+asynchrony: 0
+}
+});
+});
+</script>

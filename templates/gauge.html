@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 ,shrink-to-fit=no">
+    <script src = 'https://cdn.rawgit.com/Mikhus/canvas-gauges/gh-pages/download/2.1.4/radial/gauge.min.js'> </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3pro.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Oxygen|Raleway&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src = "{{ url_for('static', filename = 'js-fluid-meter.js') }}" ></script>
+
+    
+    <style type="text/css">  
+        body,h1 {font-family: "Raleway", Arial, sans-serif }
+        h1 {letter-spacing: 6px;
+        color:black; }
+        body{
+          background-color: #FDFFFF
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class = "container ">
+      <header class="w3-panel w3-center"  >
+        <img src="{{url_for('static' , filename='logo.png')}} " style="height: 185px">
+        
+        <h1 style="padding-top: 20PX"><b>IV-BAG MONITORING DASHBOARD</b></h1>
+    
+      </header>
+  
+    </div>
+
+ <!-- 
+  <div  class="w3-container " style="padding: 150px 15px">
+    <div class="row">
+      <div class="col text-center">
+          <canvas data-type="radial-gauge" id="gauge-a"
+              data-width="300"
+              data-height="300"
+              data-units="milli Litre"
+              data-value="0"
+              data-min-value="0"
+              data-start-angle="90"
+              data-ticks-angle="180"
+              data-value-box="false"
+              data-max-value="600"
+              data-major-ticks="0,100,200,300,400,500,600"
+              data-minor-ticks="2"
+              data-stroke-ticks="true"
+              data-highlights='[
+                  {"from": 70, "to": 100, "color": "rgba(200, 50, 50, .75)"}
+                  ]'
+              data-color-plate="#fff"
+              data-border-shadow-width="0"
+              data-borders="false"
+              data-needle-type="arrow"
+              data-needle-width="2"
+                data-needle-circle-size="7"
+              data-needle-circle-outer="true"
+              data-needle-circle-inner="false"
+              data-animation-duration="800"
+              data-animation-rule="linear"
+          ></canvas>
+    </div>
+
+  <hr/>
+
+    <div class="col text-center"> 
+      <canvas id="gauge">    
+      </canvas>
+    </div>
+  <hr/>
+      <div class="col text-center">
+      <canvas data-type="radial-gauge" id="gauge-c"
+          data-width="300"
+          data-height="300"
+          data-units="milli"
+          data-value="0"
+          data-min-value="0"
+          data-start-angle="90"
+          data-ticks-angle="180"
+          data-value-box="false"
+          data-max-value="600"
+          data-major-ticks="0,100,200,300,400,500,600"
+          data-minor-ticks="2"
+          data-stroke-ticks="true"
+          data-highlights='[
+              {"from": 70, "to": 100, "color": "rgba(200, 50, 50, .75)"}
+              ]'
+          data-color-plate="#fff"
+          data-border-shadow-width="0"
+          data-borders="false"
+          data-needle-type="arrow"
+          data-needle-width="2"
+          data-needle-circle-size="7"
+          data-needle-circle-outer="true"
+          data-needle-circle-inner="false"
+          data-animation-duration="800"
+          data-animation-rule="linear"
+
+      ></canvas>  
+    </div>
+
+  </div>
+  
+</div>
+-->
+
+
+  <!-- D3.liquid gauge animation -->
+<section>
+<div class="container" style="padding-top: 25px">
+    <div class="row">
+
+<!--FIRST-->
+      <div class="col-sm-6 col-md-4 text-center " style="float: left;">
+        <div class="card text-white border-success bg-info mb-3" style="max-width: 25rem;">
+            <div class="card-header">DEVICE-I</div>
+                <div class="card-body">
+              
+                  <div id="fluid-meter-1" class="mx-auto"> </div>
+                </div>
+            </div>        
+        </div> 
+
+<!-- SECOND -->     
+      <div class="col-sm-6 col-md-4 text-center" style="float: left;">
+        <div class="card text-white bg-info mb-3" style="max-width: 25rem;">
+          <div class="card-header">DEVICE-II</div>
+              <div class="card-body">
+                <div id="fluid-meter-2"></div>
+                   
+                </div>
+          </div>        
+      </div>
+<!-- THIRD -->
+      <div class="col-sm-6 col-md-4 text-center">
+        <div class="card text-white bg-info mb-3" style="max-width: 25rem;">
+            <div class="card-header">DEVICE-III</div>
+                <div class="card-body">
+              
+                  <div id="fluid-meter-3" class="mx-auto"> </div>
+
+                </div>
+            </div>        
+        </div> 
+<!-- FOURTH -->
+      <div class="col-sm-6 col-md-4 text-center" style="float: left;">
+        <div class="card text-white bg-info mb-3" style="max-width: 25rem;">
+          <div class="card-header">DEVICE-IV</div>
+              <div class="card-body">
+                <div id="fluid-meter-4" class="mx-auto"></div>
+                <h3 id="count" style="color: black"></h3>
+                   
+                </div>
+          </div>        
+      </div>
+<!-- FIFTH -->
+      <div class="col-sm-6 col-md-4 text-center" style="float: left;">
+        <div class="card text-white bg-info mb-3" style="max-width: 25rem;">
+            <div class="card-header">DEVICE-V</div>
+                <div class="card-body">
+              
+                  <div id="fluid-meter-5" class="mx-auto"> </div>
+                </div>
+            </div>        
+        </div> 
+        
+
+<!-- SIXTH -->    
+      <div class="col-sm-6 col-md-4 text-center" style="float: left;">
+        <div class="card text-white bg-info mb-3" style="max-width: 25rem;">
+          <div class="card-header">DEVICE-VI </div>
+              <div class="card-body">
+                <div id="fluid-meter-6" class = "mx-auto">
+                   
+                </div>
+          </div>        
+      </div>
+
+    
+    </div>
+</div>
+</section>
+
+
+
+
+
+<!-- CHART.JS LINEAR CHART API -->
+<div class="container" style="padding: 20px">
+    <div class="row">
+        <div class="col-6">
+            <div class="card text-white ">
+                <div class="card-body">
+                    <canvas id="canvas"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+  <!-- FOOTER -->
+<div class="w3-container w3-cyan ">
+  <header class="w3-panel w3-center w3-opacity" style="padding:30px 10px" >
+      <h2>lifegraphbiomedical.com</h2>
+</header>
+</div>
+
+
+<!--
+<script type="text/javascript">
+  var gauge = new RadialGauge({
+    renderTo: 'gauge',
+    width: 300,
+    height: 300,
+    units: "milli",
+    value: 0,
+    minValue: 0,
+    startAngle: 90,
+    ticksAngle: 180,
+    valueBox: true,
+    maxValue: 100,
+    majorTicks: [
+        "0",
+        "20",
+        "40",
+        "60",
+        "80",
+        "100",
+    ],
+    minorTicks: 2,
+    strokeTicks: true,
+    highlights: [
+        {
+          "from": 0,
+          "to": 60,
+          "color": "rgba(100, 255, 100, .2)"
+        },
+        {
+          "from": 60,
+          "to": 80,
+          "color": "rgba(220, 200, 0, .75)"
+        },
+        {
+            "from": 80,
+            "to": 100,
+            "color": "rgba(200, 50, 50, .75)"
+        }
+    ],
+    colorPlate: "#fff",
+    borderShadowWidth: 0,
+    borders: false,
+    needleType: "arrow",
+    needleWidth: 5,
+    needleCircleSize: 2,
+    needleCircleOuter: true,
+    needleCircleInner: false,
+    animationDuration: 1500,
+    animationRule: "linear"
+}).draw();
+
+var source = new EventSource("/gauge");
+  
+  
+  source.onmessage = function(event) {
+    const data = JSON.parse(event.data);
+    document.getElementById("gauge-a").setAttribute("data-value",data.value);
+
+    
+    
+    
+  };
+
+   
+
+  
+
+var source1 = new EventSource("/device2");
+  
+  var x;
+  source1.onmessage = function(event) {
+    const data1 = JSON.parse(event.data);
+    
+    document.getElementById("gauge-c").setAttribute("data-value",data1.value);
+
+    
+   
+  };
+
+</script>
+-->
+
+<script>
+  
+  var fm = new FluidMeter();
+    fm.init({
+      targetContainer: document.getElementById("fluid-meter-1"),
+      fillPercentage: 0,
+      options: {
+        fontFamily: "Raleway",
+        drawPercentageSign: true,
+        drawBubbles: true,
+        size: 300,
+        borderWidth: 19,
+        backgroundColor: "#e2e2e2",
+        foregroundColor: "#fafafa",
+        foregroundFluidLayer: {
+          fillStyle: "blue",
+          angularSpeed: 100,
+          maxAmplitude: 12,
+          frequency: 30,
+          horizontalSpeed: -150
+        },
+        backgroundFluidLayer: {
+          fillStyle: "pink",
+          angularSpeed: 100,
+          maxAmplitude: 9,
+          frequency: 30,
+          horizontalSpeed: 150
+        }
+      }
+    });
+
+    var fm2 = new FluidMeter();
+    fm2.init({
+      targetContainer: document.getElementById("fluid-meter-2"),
+      fillPercentage: 0,
+      options: {
+        fontFamily: "Raleway",
+        drawPercentageSign: true,
+        drawBubbles: true,
+        size: 300,
+        borderWidth: 10,
+        backgroundColor: "#e2e2e2",
+        foregroundColor: "#fafafa",
+        foregroundFluidLayer: {
+          fillStyle: "blue",
+          angularSpeed: 90,
+          maxAmplitude: 11,
+          frequency: 25,
+          horizontalSpeed: -200
+        },
+        backgroundFluidLayer: {
+          fillStyle: "blue",
+          angularSpeed: 100,
+          maxAmplitude: 9,
+          frequency: 30,
+          horizontalSpeed: 150
+        }
+      }
+    });
+
+    var fm3 = new FluidMeter();
+    fm3.init({
+      targetContainer: document.getElementById("fluid-meter-3"),
+      fillPercentage: 0,
+      options: {
+        fontFamily: "Raleway",
+        drawPercentageSign: true,
+        drawBubbles: true,
+        size: 300,
+        borderWidth: 19,
+        backgroundColor: "#e2e2e2",
+        foregroundColor: "#fafafa",
+        foregroundFluidLayer: {
+          fillStyle: "blue",
+          angularSpeed: 100,
+          maxAmplitude: 12,
+          frequency: 30,
+          horizontalSpeed: -150
+        },
+        backgroundFluidLayer: {
+          fillStyle: "blue",
+          angularSpeed: 100,
+          maxAmplitude: 9,
+          frequency: 30,
+          horizontalSpeed: 150
+        }
+      }
+    });
+
+    var fm4 = new FluidMeter();
+    fm4.init({
+      targetContainer: document.getElementById("fluid-meter-4"),
+      fillPercentage: 0,
+      options: {
+        fontFamily: "Raleway",
+        drawPercentageSign: true,
+        drawBubbles: true,
+        size: 300,
+        borderWidth: 19,
+        backgroundColor: "#e2e2e2",
+        foregroundColor: "#fafafa",
+        foregroundFluidLayer: {
+          fillStyle: "blue",
+          angularSpeed: 100,
+          maxAmplitude: 12,
+          frequency: 30,
+          horizontalSpeed: -150
+        },
+        backgroundFluidLayer: {
+          fillStyle: "pink",
+          angularSpeed: 100,
+          maxAmplitude: 9,
+          frequency: 30,
+          horizontalSpeed: 150
+        }
+      }
+    });
+
+var fm5 = new FluidMeter();
+    fm5.init({
+      targetContainer: document.getElementById("fluid-meter-5"),
+      fillPercentage: 0,
+      options: {
+        fontFamily: "Raleway",
+        drawPercentageSign: true,
+        drawBubbles: true,
+        size: 300,
+        borderWidth: 19,
+        backgroundColor: "#e2e2e2",
+        foregroundColor: "#fafafa",
+        foregroundFluidLayer: {
+          fillStyle: "blue",
+          angularSpeed: 100,
+          maxAmplitude: 12,
+          frequency: 30,
+          horizontalSpeed: -150
+        },
+        backgroundFluidLayer: {
+          fillStyle: "pink",
+          angularSpeed: 100,
+          maxAmplitude: 9,
+          frequency: 30,
+          horizontalSpeed: 150
+        }
+      }
+    });
+
+var fm6 = new FluidMeter();
+    fm6.init({
+      targetContainer: document.getElementById("fluid-meter-6"),
+      fillPercentage: 0,
+      options: {
+        fontFamily: "Raleway",
+        drawPercentageSign: true,
+        drawBubbles: true,
+        size: 300,
+        borderWidth: 19,
+        backgroundColor: "#e2e2e2",
+        foregroundColor: "#fafafa",
+        foregroundFluidLayer: {
+          fillStyle: "blue",
+          angularSpeed: 100,
+          maxAmplitude: 12,
+          frequency: 30,
+          horizontalSpeed: -150
+        },
+        backgroundFluidLayer: {
+          fillStyle: "blue",
+          angularSpeed: 100,
+          maxAmplitude: 9,
+          frequency: 30,
+          horizontalSpeed: 150
+        }
+      }
+    });
+    
+    const source1 = new EventSource("/device1");
+
+        source1.onmessage = function (event) {
+            const data = JSON.parse(event.data);
+
+            
+            
+          const val1 = (data.value/ 600)*100;
+           
+          fm.setPercentage(val1)
+          
+     
+    };
+    const source2 = new EventSource("/device2");
+
+        source2.onmessage = function (event) {
+            const data2 = JSON.parse(event.data);
+          const val2 = (data2.value/600)*100;
+          fm2.setPercentage(val2);
+     
+    };
+
+    const source3 = new EventSource("/device3");
+
+        source3.onmessage = function (event) {
+            const data3 = JSON.parse(event.data);
+          const val3 = (data3.value/600)*100;
+          fm3.setPercentage(val3);
+     
+    };
+   
+    const source4 = new EventSource("/device4");
+        
+        source4.onmessage = function (event) {
+            const data4 = JSON.parse(event.data);
+          const val4 = (data4.value/600)*100;
+          fm4.setPercentage(val4); 
+    };
+    const source5 = new EventSource("/device5");
+
+        source5.onmessage = function (event) {
+            const data5 = JSON.parse(event.data);
+          const val5 = (data5.value/600)*100;
+          fm5.setPercentage(val5);
+     
+    };
+    const source6 = new EventSource("/device6");
+
+        source6.onmessage = function (event) {
+            const data6 = JSON.parse(event.data);
+          const val6 = (data6.value/data6.value1)*100;
+          fm6.setPercentage(val6);
+     
+    };
+</script>
+
+<!--suppress JSUnresolvedLibraryURL -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<!--suppress JSUnresolvedLibraryURL -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!--suppress JSUnresolvedLibraryURL -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+<script>
+    $(document).ready(function () {
+        const config = {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: "sensor Data",
+                    backgroundColor: 'rgb(255, 255, 255)',
+                    borderColor: 'rgb(255, 0, 0)',
+                    data: [],
+                    fill: false,
+                }],
+            },
+            options: {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: 'Creating Real-Time'
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Time'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Value'
+                        }
+                    }]
+                }
+            }
+        };
+
+        const context = document.getElementById('canvas').getContext('2d');
+
+        const lineChart = new Chart(context, config);
+
+        const source = new EventSource("/chart-data");
+
+        source.onmessage = function (event) {
+            const data = JSON.parse(event.data);
+            
+            if (config.data.labels.length === 20) {
+                config.data.labels.shift();
+                config.data.datasets[0].data.shift();
+            }
+            config.data.labels.push(data.time);
+            config.data.datasets[0].data.push(data.value);
+            lineChart.update();
+        }
+    });
+
+    
+
+</script>
+
+</body>
+
+
+
+
