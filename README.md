@@ -8,3 +8,4 @@ Material required:
 4.  Flask for backend
 5.  HTML/Bootstrap/css
 6.  Java script
+Note*:app.py is the main backend code 
